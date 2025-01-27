@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: local # default local
+  cloud:
+    openfeign:
+      client:
+        config:
+          pod-api:
+            connectTimeout: 21000
+            readTimeout: 90000
+            loggerLevel: full
+      compression:
+        response:
+          enabled: false
+      httpclient:
+        max-connections: 2000
+        max-connections-per-route: 2500
+        disable-ssl-validation: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true # 대소문자를 구분하지 않고 Enum Mapping
+    deserialization:
+      read-unknown-enum-values-as-null: true # 일치하지 않는 ENUM Null 처리
+swagger:
+  server:
+    domain:
+  group-name: 알서포트 과제 API v1
+  api-doc:
+    title: 알서포트 과제 API 명세서
+    description: 알서포트 과제 API 명세서
+    version: v1
+  token:
+    enable: false
+    key:
+  language-header:
+    enable: false
