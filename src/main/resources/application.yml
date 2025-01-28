@@ -1,21 +1,6 @@
 spring:
   profiles:
     active: local # default local
-  cloud:
-    openfeign:
-      client:
-        config:
-          pod-api:
-            connectTimeout: 21000
-            readTimeout: 90000
-            loggerLevel: full
-      compression:
-        response:
-          enabled: false
-      httpclient:
-        max-connections: 2000
-        max-connections-per-route: 2500
-        disable-ssl-validation: true
   servlet:
     multipart:
       max-file-size: 10MB
@@ -25,6 +10,14 @@ spring:
       accept-case-insensitive-enums: true # 대소문자를 구분하지 않고 Enum Mapping
     deserialization:
       read-unknown-enum-values-as-null: true # 일치하지 않는 ENUM Null 처리
+  aws:
+    s3:
+      bucket: my-bucket
+      endpoint: http://localhost:4566
+    region: us-east-1
+    credentials:
+      access-key: test
+      secret-key: test
 swagger:
   server:
     domain:

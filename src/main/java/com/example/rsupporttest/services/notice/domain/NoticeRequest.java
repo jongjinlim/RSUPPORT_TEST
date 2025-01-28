@@ -21,4 +21,14 @@ public record NoticeRequest(
 				.createdBy(this.createdBy)
 				.build();
 	}
+
+	public UpdateNotice toUpdateNotice(Long id) {
+		return UpdateNotice.builder()
+				.title(this.title)
+				.contents(this.contents)
+				.startDate(this.startDate)
+				.endDate(this.endDate)
+				.createdBy(this.createdBy)
+				.build();
+	}
 }
