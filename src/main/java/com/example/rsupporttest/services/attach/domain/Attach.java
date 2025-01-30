@@ -6,12 +6,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
+@Getter
 @Comment("공지사항 첨부파일")
 @Table(name = "attach")
 @NoArgsConstructor(access = PROTECTED)
@@ -31,7 +33,7 @@ public class Attach extends BaseEntity {
 	private String fileUrl;
 
 	@Builder
-	private Attach(
+	public Attach(
 			Long noticeId,
 			String fileName,
 			String fileUrl

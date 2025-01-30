@@ -24,6 +24,7 @@ public record NoticeRequest(
 
 	public UpdateNotice toUpdateNotice(Long id) {
 		return UpdateNotice.builder()
+				.id(id)
 				.title(this.title)
 				.contents(this.contents)
 				.startDate(this.startDate)
