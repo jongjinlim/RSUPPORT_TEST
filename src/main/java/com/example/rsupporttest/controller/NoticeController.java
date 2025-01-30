@@ -52,12 +52,22 @@ public class NoticeController {
 		return ResponseEntity.ok(this.noticeService.updateNotice(noticeRequest.toUpdateNotice(id), newFiles, deleteFileIds));
 	}
 
+	/**
+	 * 공지사항 삭제
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteNotice(@PathVariable Long id) {
 		this.noticeService.deleteNotice(id);
 		return ResponseEntity.ok("정상적으로 삭제 처리 되었습니다.");
 	}
 
+	/**
+	 * 공지사항 조회
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Notice> getNotice(@PathVariable Long id) {
 		noticeService.incrementViewCount(id);

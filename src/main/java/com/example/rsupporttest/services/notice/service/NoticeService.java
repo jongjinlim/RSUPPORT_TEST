@@ -7,7 +7,6 @@ import com.example.rsupporttest.services.attach.repository.AttachRepository;
 import com.example.rsupporttest.services.attach.service.AttachService;
 import com.example.rsupporttest.services.notice.domain.CreateNotice;
 import com.example.rsupporttest.services.notice.domain.Notice;
-import com.example.rsupporttest.services.notice.domain.NoticeResponse;
 import com.example.rsupporttest.services.notice.domain.UpdateNotice;
 import com.example.rsupporttest.services.notice.repository.NoticeRepository;
 import jakarta.transaction.Transactional;
@@ -41,7 +40,7 @@ public class NoticeService {
 	 * @param createNotice
 	 */
 	@Transactional
-	public void createNotice(CreateNotice createNotice, List<MultipartFile> files) throws IOException {
+	public Long createNotice(CreateNotice createNotice, List<MultipartFile> files) throws IOException {
 
 		// 1. 공지사항 저장
 		Notice notice = Notice.builder()
@@ -57,6 +56,8 @@ public class NoticeService {
 		if(files != null && !files.isEmpty()) {
 			this.uploadFilesAsync(savedNotice, files);
 		}
+
+		return savedNotice.getId();
 	}
 
 	/**
@@ -67,10 +68,10 @@ public class NoticeService {
 	 * @return
 	 */
 	@Transactional
-	public NoticeResponse updateNotice(UpdateNotice updateNotice, List<MultipartFile> newFiles, List<Long> deleteFileIds) {
+	public Notice updateNotice(UpdateNotice updateNotice, List<MultipartFile> newFiles, List<Long> deleteFileIds) {
 		Notice notice = getNotice(updateNotice.id());
 		notice.updateNoticeData(updateNotice);
-		this.noticeRepository.save(notice);
+		Notice updatedNotice = this.noticeRepository.save(notice);
 
 		if (deleteFileIds != null && !deleteFileIds.isEmpty()) {
 			List<Attach> attachmentsToDelete = attachRepository.findAllById(deleteFileIds);
@@ -82,15 +83,20 @@ public class NoticeService {
 			uploadFilesAsync(notice, newFiles);
 		}
 
-
-		return null;
+		return updatedNotice;
 	}
 
+	/**
+	 * 공지사항 삭제
+	 * @param id
+	 */
 	@Transactional
 	public void deleteNotice(Long id) {
 		Notice notice = getNotice(id);
 
 		List<Attach> attachList = attachRepository.findByNoticeId(id);
+		attachList.forEach(attach -> attachService.deleteFileFromS3(attach.getFileUrl()));
+		attachRepository.deleteAllInBatch(attachList);
 
 		this.noticeRepository.delete(notice);
 	}
