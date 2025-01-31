@@ -2,10 +2,8 @@ package com.example.rsupporttest;
 
 import com.example.rsupporttest.services.attach.domain.Attach;
 import com.example.rsupporttest.services.attach.repository.AttachRepository;
-import com.example.rsupporttest.services.attach.service.AttachService;
 import com.example.rsupporttest.services.notice.domain.Notice;
 import com.example.rsupporttest.services.notice.domain.NoticeRequest;
-import com.example.rsupporttest.services.notice.domain.NoticeResponse;
 import com.example.rsupporttest.services.notice.repository.NoticeRepository;
 import com.example.rsupporttest.services.notice.service.NoticeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
